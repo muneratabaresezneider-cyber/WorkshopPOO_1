@@ -75,36 +75,28 @@ public class Time
     private int ValidateHour(int hour)
     {
         if (hour < 0 || hour > 23)
-        {
-            throw new ArgumentOutOfRangeException(nameof(hour), "Hour must be between 0 and 23.");
-        }
+            throw new ArgumentException($"The hour: {hour}, is not valid.");
         return hour;
     }
 
     private int ValidateMinute(int minute)
     {
         if (minute < 0 || minute > 59)
-        {
-            throw new ArgumentOutOfRangeException(nameof(minute), "Minute must be between 0 and 59.");
-        }
+            throw new ArgumentException($"The minute: {minute}, is not valid.");
         return minute;
     }
 
     private int ValidateSecond(int second)
     {
         if (second < 0 || second > 59)
-        {
-            throw new ArgumentOutOfRangeException(nameof(second), "Second must be between 0 and 59.");
-        }
+            throw new ArgumentException($"The second: {second}, is not valid.");
         return second;
     }
 
     private int ValidateMillisecond(int millisecond)
     {
         if (millisecond < 0 || millisecond > 999)
-        {
-            throw new ArgumentOutOfRangeException(nameof(millisecond), "Millisecond must be between 0 and 999.");
-        }
+            throw new ArgumentException($"The millisecond: {millisecond}, is not valid.");
         return millisecond;
     }
 
@@ -114,9 +106,8 @@ public class Time
             int displayHour = _hour;
             string amPm = _hour < 12 ? "AM" : "PM";
 
-            if (_hour > 12) displayHour = _hour - 12;
-            else if (_hour == 12) displayHour = 12;
-            else if (_hour == 0) displayHour = 0;
+            if (_hour == 0) displayHour = 12;
+            else if (_hour > 12) displayHour = _hour - 12;
 
             return $"{displayHour:00}:{_minute:00}:{_second:00}.{_millisecond:000} {amPm}";
         }
