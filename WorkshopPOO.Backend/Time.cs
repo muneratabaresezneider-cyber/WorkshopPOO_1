@@ -155,12 +155,4 @@ public class Time
 
         return new Time(hr, mi, se, ms);
     }
-    private int ValidHour(int hour)
-    {
-        if (hour < 0 || hour > 23)
-        {
-            throw new ArgumentOutOfRangeException(nameof(hour), $"The hour: {hour}, is not valid.");
-        }
-        return hour;
-    }
 }
