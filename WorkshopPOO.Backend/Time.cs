@@ -130,37 +130,37 @@ public class Time
 
     public bool IsOtherDay(Time other)
     {
-        int ms = _millisecond + other.Millisecond;
-        int carrySec = ms / 1000;
 
-        int sec = _second + other.Second + carrySec;
-        int carryMin = sec / 60;
+        int totalMs = (int)(ToMilliseconds() + other.ToMilliseconds());
 
-        int min = _minute + other.Minute + carryMin;
-        int carryHour = min / 60;
 
-        int h = _hour + other.Hour + carryHour;
+        if (totalMs >= 86400000)
+        {
+            return true;
+        }
 
-        return h >= 24;
+        return false;
     }
 
     public Time Add(Time other)
     {
-        int ms = _millisecond + other.Millisecond;
-        int carrySec = ms / 1000;
-        ms %= 1000;
+        int totalMs = (int)(ToMilliseconds() + other.ToMilliseconds());
+        totalMs %= 86400000;
 
-        int sec = _second + other.Second + carrySec;
-        int carryMin = sec / 60;
-        sec %= 60;
 
-        int min = _minute + other.Minute + carryMin;
-        int carryHour = min / 60;
-        min %= 60;
+        int hr = (totalMs / 3600000);
+        int mi = ((totalMs / 60000) % 60);
+        int se = ((totalMs / 1000) % 60);
+        int ms = (totalMs % 1000);
 
-        int h = _hour + other.Hour + carryHour;
-        h %= 24;
-
-        return new Time(h, min, sec, ms);
+        return new Time(hr, mi, se, ms);
+    }
+    private int ValidHour(int hour)
+    {
+        if (hour < 0 || hour > 23)
+        {
+            throw new ArgumentOutOfRangeException(nameof(hour), $"The hour: {hour}, is not valid.");
+        }
+        return hour;
     }
 }
